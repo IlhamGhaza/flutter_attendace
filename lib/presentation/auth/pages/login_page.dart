@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../core/core.dart';
-import '../home/pages/main_page.dart';
+import '../../../core/core.dart';
+import '../../../data/datasource/auth_local_datasource.dart';
+import '../../home/pages/main_page.dart';
+import '../bloc/login/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -87,12 +91,51 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SpaceHeight(104),
-              Button.filled(
-                onPressed: () {
-                  context.pushReplacement(const MainPage());
+              BlocListener<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    orElse: () {},
+                    success: (data) {
+                      print('LoginState: success');
+                      AuthLocalDatasource().saveAuthData(data);
+                      context.pushReplacement(const MainPage());
+                    },
+                    error: (message) {
+                      print('LoginState: error - $message');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(message),
+                          backgroundColor: AppColors.red,
+                        ),
+                      );
+                    },
+                  );
                 },
-                label: 'Sign In',
-              )
+                child: BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Button.filled(
+                        onPressed: () {
+                          // context.pushReplacement(const MainPage());
+                          context.read<LoginBloc>().add(
+                                LoginEvent.login(
+                                  emailController.text,
+                                  passwordController.text,
+                                ),
+                              );
+                        },
+                        label: 'Sign In',
+                      );
+                    },
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+                }),
+              ),
             ],
           ),
         ),
