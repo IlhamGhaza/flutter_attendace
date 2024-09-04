@@ -62,14 +62,33 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SpaceWidth(12.0),
-                  const Expanded(
-                    child: Text(
-                      'Hello, Ilham Sensei',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: AppColors.white,
-                      ),
-                      maxLines: 2,
+                  Expanded(
+                    child: FutureBuilder(
+                      future: AuthLocalDatasource().getAuthData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Text('Loading...');
+                        } else {
+                          final user = snapshot.data?.user;
+                          return Text(
+                            'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              color: AppColors.white,
+                            ),
+                            maxLines: 2,
+                          );
+                        }
+                      },
+                      // child: Text(
+                      //   'Hello, Ilham Sensei',
+                      //   style: TextStyle(
+                      //     fontSize: 18.0,
+                      //     color: AppColors.white,
+                      //   ),
+                      //   maxLines: 2,
+                      // ),
                     ),
                   ),
                   IconButton(
