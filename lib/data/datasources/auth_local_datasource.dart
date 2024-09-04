@@ -1,7 +1,6 @@
+import 'package:flutter_attendace/data/models/response/auth_response_model.dart';
+import 'package:flutter_attendace/data/models/response/user_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/response/auth_response_model.dart';
-import '../models/response/user_response_model.dart';
 
 class AuthLocalDatasource {
   Future<void> saveAuthData(AuthResponseModel data) async {

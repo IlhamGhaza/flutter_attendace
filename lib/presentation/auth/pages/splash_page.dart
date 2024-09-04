@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendace/presentation/home/pages/main_page.dart';
 
 import '../../../core/core.dart';
-import '../../../data/datasource/auth_local_datasource.dart';
-import '../../home/pages/main_page.dart';
 import 'login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
                 child: Assets.images.logoWhite.image(),
               ),
               const Spacer(),
-              Assets.images.flutterLogo.image(height: 70),
+              // Assets.images.logoCodeWithBahri.image(height: 70),
               const SpaceHeight(20.0),
             ],
           );

@@ -72,9 +72,6 @@ class _$LogoutEventCopyWithImpl<$Res, $Val extends LogoutEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of LogoutEvent
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -91,9 +88,6 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of LogoutEvent
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -196,9 +190,6 @@ class __$$LogoutImplCopyWithImpl<$Res>
   __$$LogoutImplCopyWithImpl(
       _$LogoutImpl _value, $Res Function(_$LogoutImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of LogoutEvent
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -357,9 +348,6 @@ class _$LogoutStateCopyWithImpl<$Res, $Val extends LogoutState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -376,9 +364,6 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -493,9 +478,6 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -610,9 +592,6 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -730,8 +709,6 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -770,9 +747,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -857,10 +832,7 @@ abstract class _Error implements LogoutState {
   const factory _Error(final String error) = _$ErrorImpl;
 
   String get error;
-
-  /// Create a copy of LogoutState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

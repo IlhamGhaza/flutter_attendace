@@ -3,19 +3,22 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_attendace/core/assets/assets.gen.dart';
+import 'package:flutter_attendace/core/components/spaces.dart';
+import 'package:flutter_attendace/core/constants/colors.dart';
+import 'package:flutter_attendace/core/ml/recognition_embedding.dart';
+import 'package:flutter_attendace/core/ml/recognizer.dart';
+import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendace/presentation/auth/bloc/logout/logout_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/update_user_register_face/update_user_register_face_bloc.dart';
+import 'package:flutter_attendace/presentation/home/pages/main_page.dart';
+import 'package:flutter_attendace/presentation/home/widgets/face_detector_painter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 import 'package:image/image.dart' as img;
 
 import '../../../core/core.dart';
-import '../../../core/ml/recognition_embedding.dart';
-import '../../../core/ml/recognizer.dart';
-import '../../../data/datasource/auth_local_datasource.dart';
-import '../bloc/update_user_register_face/update_user_register_face_bloc.dart';
-import '../widgets/face_detector_painter.dart';
-import 'main_page.dart';
 
 class RegisterFaceAttendencePage extends StatefulWidget {
   const RegisterFaceAttendencePage({super.key});
@@ -27,24 +30,25 @@ class RegisterFaceAttendencePage extends StatefulWidget {
 
 class _RegisterFaceAttendencePageState
     extends State<RegisterFaceAttendencePage> {
-  CameraLensDirection camDirec = CameraLensDirection.front;
+  List<CameraDescription>? _availableCameras;
   late CameraDescription description = _availableCameras![1];
+  CameraController? _controller;
+
+  CameraLensDirection camDirec = CameraLensDirection.front;
+
+  bool register = false;
+
+  late Size size;
+
+  late List<RecognitionEmbedding> recognitions = [];
+
   //TODO declare face detectore
   late FaceDetector detector;
 
-  CameraImage? frame;
-  img.Image? image;
-  bool isBusy = false;
-  late List<RecognitionEmbedding> recognitions = [];
   //TODO declare face recognizer
   late Recognizer recognizer;
 
-  bool register = false;
-  late Size size;
-
-  List<CameraDescription>? _availableCameras;
-  CameraController? _controller;
-  dynamic _scanResults;
+  bool isBusy = false;
 
 //   Future<XFile> convertImageToXFile(img.Image image) async {
 //   // Get a temporary directory path
@@ -76,6 +80,35 @@ class _RegisterFaceAttendencePageState
 
     _initializeCamera();
   }
+
+  void _initializeCamera() async {
+    _availableCameras = await availableCameras();
+    _controller = CameraController(
+      description,
+      ResolutionPreset.high,
+    );
+
+    // size = _controller!.value.previewSize!;
+
+    await _controller!.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+
+      _controller!.startImageStream((CameraImage image) {
+        if (!isBusy) {
+          isBusy = true;
+          frame = image;
+          doFaceDetectionOnFrame();
+        }
+      });
+
+      setState(() {});
+    });
+  }
+
+  dynamic _scanResults;
+  CameraImage? frame;
 
   InputImage getInputImage() {
     final WriteBuffer allBytes = WriteBuffer();
@@ -160,6 +193,7 @@ class _RegisterFaceAttendencePageState
     performFaceRecognition(faces);
   }
 
+  img.Image? image;
   performFaceRecognition(List<Face> faces) async {
     recognitions.clear();
 
@@ -274,47 +308,6 @@ class _RegisterFaceAttendencePageState
     );
   }
 
-  Widget buildResult() {
-    if (_scanResults == null || !_controller!.value.isInitialized) {
-      return const Center(child: Text('Camera is not initialized'));
-    }
-    final Size imageSize = Size(
-      _controller!.value.previewSize!.height,
-      _controller!.value.previewSize!.width,
-    );
-    CustomPainter painter =
-        FaceDetectorPainter(imageSize, _scanResults, camDirec);
-    return CustomPaint(
-      painter: painter,
-    );
-  }
-
-  void _initializeCamera() async {
-    _availableCameras = await availableCameras();
-    _controller = CameraController(
-      description,
-      ResolutionPreset.high,
-    );
-
-    // size = _controller!.value.previewSize!;
-
-    await _controller!.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-
-      _controller!.startImageStream((CameraImage image) {
-        if (!isBusy) {
-          isBusy = true;
-          frame = image;
-          doFaceDetectionOnFrame();
-        }
-      });
-
-      setState(() {});
-    });
-  }
-
   void _reverseCamera() async {
     if (camDirec == CameraLensDirection.back) {
       camDirec = CameraLensDirection.front;
@@ -338,6 +331,21 @@ class _RegisterFaceAttendencePageState
         register = true;
       });
     }
+  }
+
+  Widget buildResult() {
+    if (_scanResults == null || !_controller!.value.isInitialized) {
+      return const Center(child: Text('Camera is not initialized'));
+    }
+    final Size imageSize = Size(
+      _controller!.value.previewSize!.height,
+      _controller!.value.previewSize!.width,
+    );
+    CustomPainter painter =
+        FaceDetectorPainter(imageSize, _scanResults, camDirec);
+    return CustomPaint(
+      painter: painter,
+    );
   }
 
   @override

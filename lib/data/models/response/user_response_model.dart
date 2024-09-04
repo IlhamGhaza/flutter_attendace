@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'auth_response_model.dart';
-
+import 'package:flutter_attendace/data/models/response/auth_response_model.dart';
 
 class UserResponseModel {
   final String? message;

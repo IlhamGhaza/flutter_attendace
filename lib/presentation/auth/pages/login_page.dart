@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendace/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/core.dart';
-import '../../../data/datasource/auth_local_datasource.dart';
 import '../../home/pages/main_page.dart';
-import '../bloc/login/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -96,7 +94,6 @@ class _LoginPageState extends State<LoginPage> {
                   state.maybeWhen(
                     orElse: () {},
                     success: (data) {
-                      print('LoginState: success');
                       AuthLocalDatasource().saveAuthData(data);
                       context.pushReplacement(const MainPage());
                     },

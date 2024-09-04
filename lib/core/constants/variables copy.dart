@@ -1,5 +1,5 @@
-//TODO: copy this file to core/constants/variables.dart
+//TODO: Rename this file to variables.dart 
 // class Variables {
-//   static const String appName = 'Attendance app';
-//   static const String baseUrl = 'http://yourIP:8000';
+//   static const String appName = 'GeoFace Flutter Intensive Club 16';
+//   static const String baseUrl = 'http://[Your Ip Address]:8000'; //or replace with your server url
 // }

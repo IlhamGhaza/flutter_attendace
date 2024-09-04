@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
-import '../../../core/ml/recognition_embedding.dart';
+import 'package:flutter_attendace/core/ml/recognition_embedding.dart';
 
 class FaceDetectorPainter extends CustomPainter {
   FaceDetectorPainter(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_attendace/presentation/history/pages/history_page.dart';
+import 'package:flutter_attendace/presentation/home/pages/home_page.dart';
 import 'package:flutter_attendace/presentation/setting/pages/profile_pages.dart';
-import 'package:flutter_attendace/presentation/setting/pages/setting_pages.dart';
 
 import '../../../core/core.dart';
-import 'home_page.dart';
+import '../../setting/pages/setting_pages.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -16,15 +16,12 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
   final _widgets = [
+    // const HomePage(),
     const HomePage(),
     const HistoryPage(),
-    // Center(child: Text('This is history page')),
     const SettingsPage(),
-    //Center(child: Text('This is setting page')),
-    const ProfilePage()
-    //Center(child: Text('This is profile page')),
+    const ProfilePage(),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

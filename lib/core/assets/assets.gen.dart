@@ -7,10 +7,9 @@
 // ignore_for_file: type=lint
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart' as _svg;
-import 'package:vector_graphics/vector_graphics.dart' as _vg;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 
 class $AssetsIconsGen {
   const $AssetsIconsGen();
@@ -22,13 +21,19 @@ class $AssetsIconsGen {
   /// File path: assets/icons/back.svg
   SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
 
+  /// File path: assets/icons/calendar.svg
+  SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
+
   /// File path: assets/icons/email.svg
   SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
 
-  /// Directory path: assets/icons/menu
-  $AssetsIconsMenuGen get menu => const $AssetsIconsMenuGen();
+  /// File path: assets/icons/image.svg
+  SvgGenImage get image => const SvgGenImage('assets/icons/image.svg');
 
-  /// Directory path: assets/icons/nav
+  /// File path: assets/icons/location.svg
+  SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
+
+  $AssetsIconsMenuGen get menu => const $AssetsIconsMenuGen();
   $AssetsIconsNavGen get nav => const $AssetsIconsNavGen();
 
   /// File path: assets/icons/notification_rounded.svg
@@ -42,8 +47,17 @@ class $AssetsIconsGen {
   SvgGenImage get reverse => const SvgGenImage('assets/icons/reverse.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [attendance, back, email, notificationRounded, password, reverse];
+  List<SvgGenImage> get values => [
+        attendance,
+        back,
+        calendar,
+        email,
+        image,
+        location,
+        notificationRounded,
+        password,
+        reverse
+      ];
 }
 
 class $AssetsImagesGen {
@@ -54,10 +68,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/failed.png
   AssetGenImage get failed => const AssetGenImage('assets/images/failed.png');
-
-  /// File path: assets/images/flutter_logo.png
-  AssetGenImage get flutterLogo =>
-      const AssetGenImage('assets/images/flutter_logo.png');
 
   /// File path: assets/images/img_my_location.png
   AssetGenImage get imgMyLocation =>
@@ -85,7 +95,6 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         bgHome,
         failed,
-        flutterLogo,
         imgMyLocation,
         logo,
         logoCodeWithBahri,
@@ -145,19 +154,16 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const String mobileFaceNet = 'assets/mobile_face_net.tflite';
+
+  /// List of all assets
+  static List<String> get values => [mobileFaceNet];
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
-  final Set<String> flavors;
 
   Image image({
     Key? key,
@@ -229,24 +235,11 @@ class AssetGenImage {
 }
 
 class SvgGenImage {
-  const SvgGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = false;
-
-  const SvgGenImage.vec(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = true;
+  const SvgGenImage(this._assetName);
 
   final String _assetName;
-  final Size? size;
-  final Set<String> flavors;
-  final bool _isVecFormat;
 
-  _svg.SvgPicture svg({
+  SvgPicture svg({
     Key? key,
     bool matchTextDirection = false,
     AssetBundle? bundle,
@@ -259,32 +252,19 @@ class SvgGenImage {
     WidgetBuilder? placeholderBuilder,
     String? semanticsLabel,
     bool excludeFromSemantics = false,
-    _svg.SvgTheme? theme,
+    SvgTheme theme = const SvgTheme(),
     ColorFilter? colorFilter,
     Clip clipBehavior = Clip.hardEdge,
     @deprecated Color? color,
     @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
     @deprecated bool cacheColorFilter = false,
   }) {
-    final _svg.BytesLoader loader;
-    if (_isVecFormat) {
-      loader = _vg.AssetBytesLoader(
-        _assetName,
-        assetBundle: bundle,
-        packageName: package,
-      );
-    } else {
-      loader = _svg.SvgAssetLoader(
-        _assetName,
-        assetBundle: bundle,
-        packageName: package,
-        theme: theme,
-      );
-    }
-    return _svg.SvgPicture(
-      loader,
+    return SvgPicture.asset(
+      _assetName,
       key: key,
       matchTextDirection: matchTextDirection,
+      bundle: bundle,
+      package: package,
       width: width,
       height: height,
       fit: fit,
@@ -293,8 +273,10 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter: colorFilter ??
-          (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
+      theme: theme,
+      colorFilter: colorFilter,
+      color: color,
+      colorBlendMode: colorBlendMode,
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
     );

@@ -1,21 +1,38 @@
+//com.ilhamghz.flutter_attendace
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_attendace/data/datasources/attendance_remote_datasource.dart';
+import 'package:flutter_attendace/data/datasources/auth_remote_datasource.dart';
+import 'package:flutter_attendace/data/datasources/firebase_messanging_remote_datasource.dart';
+import 'package:flutter_attendace/data/datasources/permisson_remote_datasource.dart';
+import 'package:flutter_attendace/presentation/auth/bloc/logout/logout_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/add_permission/add_permission_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/checkin_attendance/checkin_attendance_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/checkout_attendance/checkout_attendance_bloc.dart';
+import 'package:flutter_attendace/presentation/history/bloc/get_attendance_by_date/get_attendance_by_date_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/get_company/get_company_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/is_checkedin/is_checkedin_bloc.dart';
+import 'package:flutter_attendace/presentation/home/bloc/update_user_register_face/update_user_register_face_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'core/constants/colors.dart';
-import 'data/datasource/auth_remote_datasource.dart';
+import 'core/core.dart';
 import 'presentation/auth/bloc/login/login_bloc.dart';
-import 'presentation/auth/bloc/logout/logout_bloc.dart';
 import 'presentation/auth/pages/splash_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // await FirebaseMessangingRemoteDatasource().initialize();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -26,10 +43,34 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => LogoutBloc(AuthRemoteDatasource()),
         ),
+        BlocProvider(
+          create: (context) =>
+              UpdateUserRegisterFaceBloc(AuthRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => GetCompanyBloc(AttendanceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => IsCheckedinBloc(AttendanceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              CheckinAttendanceBloc(AttendanceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              CheckoutAttendanceBloc(AttendanceRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => AddPermissionBloc(PermissonRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              GetAttendanceByDateBloc(AttendanceRemoteDatasource()),
+        ),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Attendance',
+        title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
           dividerTheme:
@@ -49,6 +90,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        themeMode: ThemeMode.light  ,
         home: const SplashPage(),
       ),
     );
