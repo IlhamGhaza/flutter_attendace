@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import '../../core/constants/variables.dart';
 import '../models/response/auth_response_model.dart';
+import '../models/response/user_response_model.dart';
 import 'auth_local_datasource.dart';
 
 class AuthRemoteDatasource {
@@ -50,4 +51,40 @@ class AuthRemoteDatasource {
       return const Left('Failed to logout');
     }
   }
+
+  Future<Either<String, UserResponseModel>> updateProfileRegisterFace(
+    String embedding,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final url = Uri.parse('${Variables.baseUrl}/api/update-profile');
+    final request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = 'Bearer ${authData?.token}'
+      ..fields['face_embedding'] = embedding;
+
+    final response = await request.send();
+    final responseString = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      return Right(UserResponseModel.fromJson(responseString));
+    } else {
+      return const Left('Failed to update profile');
+    }
+  }
+
+  Future<void> updateFcmToken(String fcmToken) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final url = Uri.parse('${Variables.baseUrl}/api/update-fcm-token');
+    await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${authData?.token}',
+      },
+      body: jsonEncode({
+        'fcm_token': fcmToken,
+      }),
+    );
+  }
+
 }

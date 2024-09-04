@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_attendace/data/datasource/auth_local_datasource.dart';
 import 'package:flutter_attendace/presentation/home/pages/register_face_attendance_page.dart';
 
 import '../../../core/core.dart';
 import '../widgets/menu_button.dart';
 import 'attendance_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? faceEmbedding;
+  @override
+  void initState() {
+    _initializeFaceEmbedding();
+    super.initState();
+  }
+
+  Future<void>_initializeFaceEmbedding()async{
+    try{
+      final authData = await AuthLocalDatasource().getAuthData();
+      setState(() {
+        faceEmbedding = authData?.user?.faceEmbedding;
+      });
+    }catch(e){
+      print('Error initializing face embedding: $e');
+      setState(() {
+        faceEmbedding = null;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +166,18 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               const SpaceHeight(24.0),
-              Button.filled(
+
+              //check user has registered face or not 
+              faceEmbedding != null
+              ?Button.filled(
+                onPressed: () {
+                  context.push(const RegisterFaceAttendencePage());
+                },
+                label: 'Attendance Using Face ID',
+                color: AppColors.primary,
+                icon: Assets.icons.attendance.svg(),
+              )
+              :Button.filled(
                 onPressed: () {
                   showBottomSheet(
                     backgroundColor: AppColors.white,
@@ -181,7 +218,7 @@ class HomePage extends StatelessWidget {
                             onPressed: () => context.pop(),
                             label: 'Tolak',
                             color: AppColors.secondary,
-                          ), 
+                          ),
                           const SpaceHeight(16.0),
                           Button.filled(
                             onPressed: () {
@@ -197,6 +234,7 @@ class HomePage extends StatelessWidget {
                 },
                 label: 'Attendance Using Face ID',
                 icon: Assets.icons.attendance.svg(),
+                color: AppColors.red,
               ),
             ],
           ),
