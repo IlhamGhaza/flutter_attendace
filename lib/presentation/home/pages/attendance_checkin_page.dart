@@ -15,7 +15,6 @@ import 'package:image/image.dart' as img;
 import 'package:location/location.dart';
 
 import '../../../core/core.dart';
-
 class AttendanceCheckinPage extends StatefulWidget {
   const AttendanceCheckinPage({super.key});
 

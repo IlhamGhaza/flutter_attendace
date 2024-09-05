@@ -9,7 +9,6 @@ import 'package:flutter_attendace/presentation/home/pages/attendance_checkin_pag
 import 'package:flutter_attendace/presentation/home/pages/attendance_checkout_page.dart';
 import 'package:flutter_attendace/presentation/home/pages/permission_page.dart';
 import 'package:flutter_attendace/presentation/home/pages/register_face_attendance_page.dart';
-import 'package:flutter_attendace/presentation/home/pages/setting_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';

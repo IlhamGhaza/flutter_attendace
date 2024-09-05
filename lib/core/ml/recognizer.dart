@@ -98,7 +98,13 @@ class Recognizer {
   Future<bool> isValidFace(List<double> emb) async {
     final authData = await AuthLocalDatasource().getAuthData();
     final faceEmbedding = authData!.user!.faceEmbedding;
-    PairEmbedding pair = findNearest(emb, faceEmbedding!.split(',').map((e) => double.parse(e)).toList().cast<double>());
+    PairEmbedding pair = findNearest(
+        emb,
+        faceEmbedding!
+            .split(',')
+            .map((e) => double.parse(e))
+            .toList()
+            .cast<double>());
     print("distance= ${pair.distance}");
     if (pair.distance < 1.0) {
       return true;

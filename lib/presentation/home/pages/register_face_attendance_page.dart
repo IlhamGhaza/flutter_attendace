@@ -9,7 +9,6 @@ import 'package:flutter_attendace/core/constants/colors.dart';
 import 'package:flutter_attendace/core/ml/recognition_embedding.dart';
 import 'package:flutter_attendace/core/ml/recognizer.dart';
 import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_attendace/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:flutter_attendace/presentation/home/bloc/update_user_register_face/update_user_register_face_bloc.dart';
 import 'package:flutter_attendace/presentation/home/pages/main_page.dart';
 import 'package:flutter_attendace/presentation/home/widgets/face_detector_painter.dart';
@@ -19,6 +18,7 @@ import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as img;
 
 import '../../../core/core.dart';
+
 
 class RegisterFaceAttendencePage extends StatefulWidget {
   const RegisterFaceAttendencePage({super.key});
