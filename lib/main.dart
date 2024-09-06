@@ -1,6 +1,7 @@
 //com.ilhamghz.flutter_attendace
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_attendace/core/ml/recognizer.dart';
 import 'package:flutter_attendace/data/datasources/attendance_remote_datasource.dart';
 import 'package:flutter_attendace/data/datasources/auth_remote_datasource.dart';
 import 'package:flutter_attendace/data/datasources/firebase_messanging_remote_datasource.dart';

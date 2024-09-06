@@ -2,12 +2,11 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:flutter_attendace/core/ml/recognition_embedding.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
 
 import '../../data/datasources/auth_local_datasource.dart';
-
+import 'recognition_embedding.dart';
 
 class Recognizer {
   late Interpreter interpreter;
