@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                         } else {
                           final user = snapshot.data?.user;
                           return Text(
-                            'Hello, ${user?.name ?? 'Hello, Chopper Sensei'}',
+                            'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
                             style: const TextStyle(
                               fontSize: 18.0,
                               color: AppColors.white,
@@ -142,14 +142,6 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
                       },
-                      // child: Text(
-                      //   'Hello, Chopper Sensei',
-                      //   style: TextStyle(
-                      //     fontSize: 18.0,
-                      //     color: AppColors.white,
-                      //   ),
-                      //   maxLines: 2,
-                      // ),
                     ),
                   ),
                   IconButton(
@@ -194,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SpaceHeight(6.0),
                     Text(
-                      '${DateTime(2024, 3, 14, 8, 0).toFormattedTime()} - ${DateTime(2024, 3, 14, 16, 0).toFormattedTime()}',
+                      '${DateTime(2024, 3, 14, 7, 0).toFormattedTime()} - ${DateTime(2024, 3, 14, 16, 0).toFormattedTime()}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20.0,

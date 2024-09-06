@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/core.dart';
+import '../../../data/datasources/auth_local_datasource.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -105,10 +106,24 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildProfileInfo() {
-    return const Center(
-      child: Text(
-        'hera@geoface.id | +6285806391116',
-        style: TextStyle(color: Colors.white, fontSize: 16.0),
+    return Center(
+      child: FutureBuilder(
+        future: AuthLocalDatasource().getAuthData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Text('Loading...');
+          } else {
+            final user = snapshot.data?.user;
+            return Text(
+              'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                color: AppColors.white,
+              ),
+              maxLines: 2,
+            );
+          }
+        },
       ),
     );
   }
