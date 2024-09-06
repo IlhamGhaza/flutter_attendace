@@ -16,16 +16,17 @@ import 'package:flutter_attendace/presentation/home/bloc/update_user_register_fa
 import 'package:google_fonts/google_fonts.dart';
 
 import 'core/core.dart';
+import 'firebase_options.dart';
 import 'presentation/auth/bloc/login/login_bloc.dart';
 import 'presentation/auth/pages/splash_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // await FirebaseMessangingRemoteDatasource().initialize();
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseMessangingRemoteDatasource().initialize();
   runApp(const MyApp());
 }
 

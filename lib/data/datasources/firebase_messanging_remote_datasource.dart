@@ -4,80 +4,80 @@ import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
 import 'package:flutter_attendace/data/datasources/auth_remote_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-// class FirebaseMessangingRemoteDatasource {
-//   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-//   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+class FirebaseMessangingRemoteDatasource {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-//   Future<void> initialize() async {
-//     await _firebaseMessaging.requestPermission(
-//       alert: true,
-//       badge: true,
-//       sound: true,
-//     );
+  Future<void> initialize() async {
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-//     const initializationSettingsAndroid =
-//         AndroidInitializationSettings('ic_permission');
-//     final initializationSettingsIOS = DarwinInitializationSettings(
-//         requestAlertPermission: true,
-//         requestBadgePermission: true,
-//         requestSoundPermission: true,
-//         onDidReceiveLocalNotification:
-//             (int id, String? title, String? body, String? payload) async {
-//           // showNotification(id: id, title: title, body: body, payLoad: payload);
-//         });
+    const initializationSettingsAndroid =
+        AndroidInitializationSettings('ic_permission');
+    final initializationSettingsIOS = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payload) async {
+          // showNotification(id: id, title: title, body: body, payLoad: payload);
+        });
 
-//     final initializationSettings = InitializationSettings(
-//         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-//     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//         onDidReceiveNotificationResponse:
-//             (NotificationResponse notificationResponse) async {});
+    final initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse:
+            (NotificationResponse notificationResponse) async {});
 
-//     final fcmToken = await _firebaseMessaging.getToken();
+    final fcmToken = await _firebaseMessaging.getToken();
 
-//     print('FCM Token: $fcmToken');
+    print('FCM Token: $fcmToken');
 
-//     if (await AuthLocalDatasource().getAuthData() != null) {
-//       AuthRemoteDatasource().updateFcmToken(fcmToken!);
-//     }
+    if (await AuthLocalDatasource().getAuthData() != null) {
+      AuthRemoteDatasource().updateFcmToken(fcmToken!);
+    }
 
-//     FirebaseMessaging.instance.getInitialMessage();
-//     FirebaseMessaging.onMessage.listen((message) {
-//       print(message.notification?.body);
-//       print(message.notification?.title);
-//     });
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((message) {
+      print(message.notification?.body);
+      print(message.notification?.title);
+    });
 
-//     FirebaseMessaging.onMessage.listen(firebaseBackgroundHandler);
-//     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-//     FirebaseMessaging.onMessageOpenedApp.listen(firebaseBackgroundHandler);
-//   }
+    FirebaseMessaging.onMessage.listen(firebaseBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onMessageOpenedApp.listen(firebaseBackgroundHandler);
+  }
 
-//   Future showNotification(
-//       {int id = 0, String? title, String? body, String? payLoad}) async {
-//     return flutterLocalNotificationsPlugin.show(
-//       id,
-//       title,
-//       body,
-//       const NotificationDetails(
-//         android: AndroidNotificationDetails(
-//             'com.example.flutter_attendace', 'app',
-//             importance: Importance.max),
-//         iOS: DarwinNotificationDetails(),
-//       ),
-//     );
-//   }
+  Future showNotification(
+      {int id = 0, String? title, String? body, String? payLoad}) async {
+    return flutterLocalNotificationsPlugin.show(
+      id,
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+            'com.ilhamghz.flutter_attendace', 'app',
+            importance: Importance.max),
+        iOS: DarwinNotificationDetails(),
+      ),
+    );
+  }
 
-//   @pragma('vm:entry-point')
-//   Future<void> _firebaseMessagingBackgroundHandler(
-//       RemoteMessage message) async {
-//     await Firebase.initializeApp();
+  @pragma('vm:entry-point')
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    await Firebase.initializeApp();
 
-//     FirebaseMessangingRemoteDatasource().firebaseBackgroundHandler(message);
-//   }
+    FirebaseMessangingRemoteDatasource().firebaseBackgroundHandler(message);
+  }
 
-//   Future<void> firebaseBackgroundHandler(RemoteMessage message) async {
-//     showNotification(
-//       title: message.notification!.title,
-//       body: message.notification!.body,
-//     );
-//   }
-// }
+  Future<void> firebaseBackgroundHandler(RemoteMessage message) async {
+    showNotification(
+      title: message.notification!.title,
+      body: message.notification!.body,
+    );
+  }
+}

@@ -73,6 +73,9 @@ class _$AddPermissionEventCopyWithImpl<$Res, $Val extends AddPermissionEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AddPermissionEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -89,6 +92,9 @@ class __$$StartedImplCopyWithImpl<$Res>
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddPermissionEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -195,6 +201,8 @@ class __$$AddPermissionImplCopyWithImpl<$Res>
       _$AddPermissionImpl _value, $Res Function(_$AddPermissionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddPermissionEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -250,7 +258,9 @@ class _$AddPermissionImpl implements _AddPermission {
   @override
   int get hashCode => Object.hash(runtimeType, date, reason, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddPermissionEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddPermissionImplCopyWith<_$AddPermissionImpl> get copyWith =>
@@ -329,7 +339,10 @@ abstract class _AddPermission implements AddPermissionEvent {
   String get date;
   String get reason;
   XFile? get image;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddPermissionEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddPermissionImplCopyWith<_$AddPermissionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -404,6 +417,9 @@ class _$AddPermissionStateCopyWithImpl<$Res, $Val extends AddPermissionState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -420,6 +436,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -534,6 +553,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -648,6 +670,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -765,6 +790,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -803,7 +830,9 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -888,7 +917,10 @@ abstract class _Error implements AddPermissionState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddPermissionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
