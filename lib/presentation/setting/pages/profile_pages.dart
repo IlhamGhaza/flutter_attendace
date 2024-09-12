@@ -26,7 +26,7 @@ class ProfilePage extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 250.0,
+          height: 290.0,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: Assets.images.bgHome.provider(),
@@ -47,7 +47,7 @@ class ProfilePage extends StatelessWidget {
           child: _buildProfileImage(),
         ),
          Positioned(
-          bottom: 20.0,
+          bottom: 10.0,
           left: 0,
           right: 0,
           child: _buildProfileInfo(),
@@ -106,7 +106,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildProfileInfo() {
-    return Center(
+    return  Center(
       child: FutureBuilder(
         future: AuthLocalDatasource().getAuthData(),
         builder: (context, snapshot) {
@@ -114,13 +114,18 @@ class ProfilePage extends StatelessWidget {
             return const Text('Loading...');
           } else {
             final user = snapshot.data?.user;
-            return Text(
-              'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: AppColors.white,
-              ),
-              maxLines: 2,
+            return Column(
+              children: [
+                Text(
+                'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  color: AppColors.white,
+                ),
+                maxLines: 2,
+                ),
+                const SizedBox(height: 20.0),
+              ],
             );
           }
         },

@@ -47,7 +47,7 @@ class FirebaseMessangingRemoteDatasource {
     });
 
     FirebaseMessaging.onMessage.listen(firebaseBackgroundHandler);
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen(firebaseBackgroundHandler);
   }
 
