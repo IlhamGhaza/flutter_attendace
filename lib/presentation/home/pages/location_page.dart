@@ -18,8 +18,13 @@ class LocationPage extends StatefulWidget {
 
 class _LocationPageState extends State<LocationPage> {
   LatLng? _currentPosition;
-  MapController _mapController = MapController();
-  double _distance = 0.0;
+  final MapController _mapController = MapController();
+  final double _distance = 0.0;
+  
+  final LatLngBounds bounds = LatLngBounds(
+    const LatLng(-90.0, -180.0), // Southwest corner
+    const LatLng(90.0, 180.0), // Northeast corner
+  );
 
   @override
   void initState() {
@@ -51,31 +56,34 @@ class _LocationPageState extends State<LocationPage> {
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       _currentPosition = LatLng(position.latitude, position.longitude);
-      _calculateDistance();
     });
     _mapController.move(_currentPosition!, 15);
   }
 
-  void _calculateDistance() {
-    if (_currentPosition != null && widget.latitude != null && widget.longitude != null) {
-      _distance = Geolocator.distanceBetween(
-        _currentPosition!.latitude,
-        _currentPosition!.longitude,
-        widget.latitude!,
-        widget.longitude!
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    LatLng center = _currentPosition ?? LatLng(widget.latitude ?? 0, widget.longitude ?? 0);
+    LatLng center =
+        _currentPosition ?? LatLng(widget.latitude ?? 0, widget.longitude ?? 0);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Location'),
+        backgroundColor: Colors.transparent,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Location',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 10),
+            
+          ],
+        ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -84,54 +92,104 @@ class _LocationPageState extends State<LocationPage> {
           FlutterMap(
             mapController: _mapController,
             options: MapOptions(
-              // center: center,
-              initialZoom: 15.0,
-              maxZoom: 18.0,
-              interactionOptions: InteractionOptions(
+              initialCenter: center,
+              minZoom: 0,
+              maxZoom: 20.0,
+              interactionOptions: const InteractionOptions(
                 flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+              ),
+              cameraConstraint: CameraConstraint.contain(
+                bounds: bounds,
               ),
             ),
             children: [
               TileLayer(
                 urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                tileBuilder: (context, tileWidget, tile) {
+                  return ColorFiltered(
+                    colorFilter: const ColorFilter.mode(
+                      Colors.transparent,
+                      BlendMode.saturation,
+                    ),
+                    child: tileWidget,
+                  );
+                },
               ),
               MarkerLayer(
                 markers: [
                   Marker(
-                      point: center,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: const Icon(
-                          Icons.location_on,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                      ))
+                    point: center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.location_on_rounded,
+                        color: Colors.blue,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.arrow_back, color: Colors.black),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Current Position:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                            'Distance: ${_distance.toStringAsFixed(2)} meters'),
+                        Text('${_currentPosition?.latitude ?? widget.latitude}, ${_currentPosition?.longitude ?? widget.longitude}', style: const TextStyle(fontSize: 14)),
+                        const SizedBox(height: 4),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _getCurrentLocation();
-        },
-        child: Icon(Icons.my_location),
+        onPressed: _getCurrentLocation,
+        child: const Icon(Icons.my_location),
       ),
     );
   }
