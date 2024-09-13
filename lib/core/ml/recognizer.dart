@@ -2,11 +2,10 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter_attendace/core/ml/recognition_embedding.dart';
+import 'package:flutter_attendace/data/datasources/auth_local_datasource.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
-
-import '../../data/datasources/auth_local_datasource.dart';
-import 'recognition_embedding.dart';
 
 class Recognizer {
   late Interpreter interpreter;
@@ -97,13 +96,7 @@ class Recognizer {
   Future<bool> isValidFace(List<double> emb) async {
     final authData = await AuthLocalDatasource().getAuthData();
     final faceEmbedding = authData!.user!.faceEmbedding;
-    PairEmbedding pair = findNearest(
-        emb,
-        faceEmbedding!
-            .split(',')
-            .map((e) => double.parse(e))
-            .toList()
-            .cast<double>());
+    PairEmbedding pair = findNearest(emb, faceEmbedding!.split(',').map((e) => double.parse(e)).toList().cast<double>());
     print("distance= ${pair.distance}");
     if (pair.distance < 1.0) {
       return true;

@@ -1,6 +1,7 @@
 import 'package:flutter_attendace/data/models/response/auth_response_model.dart';
 import 'package:flutter_attendace/data/models/response/user_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class AuthLocalDatasource {
   Future<void> saveAuthData(AuthResponseModel data) async {
@@ -36,5 +37,18 @@ class AuthLocalDatasource {
     final pref = await SharedPreferences.getInstance();
     final data = pref.getString('auth_data');
     return data != null;
+  }
+
+  Future<void> removeTokenIfFriday() async {
+    final pref = await SharedPreferences.getInstance();
+    final authData = await getAuthData();
+    if (authData != null) {
+      final currentDate = DateTime.now();
+      final formatter = DateFormat('EEEE');
+      final currentDayOfWeek = formatter.format(currentDate);
+      if (currentDayOfWeek == 'Friday') {
+        await removeAuthData();
+      }
+    }
   }
 }

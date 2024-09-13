@@ -11,4 +11,3 @@ class RadiusCalculate {
     return 12742 * asin(sqrt(a));
   }
 }
-

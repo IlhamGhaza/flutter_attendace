@@ -59,7 +59,7 @@ class FirebaseMessangingRemoteDatasource {
       body,
       const NotificationDetails(
         android: AndroidNotificationDetails(
-            'com.ilhamghz.flutter_attendace', 'app',
+            'com.example.flutter_absensi_app', 'app',
             importance: Importance.max),
         iOS: DarwinNotificationDetails(),
       ),

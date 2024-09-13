@@ -7,6 +7,7 @@ import 'package:flutter_attendace/core/ml/recognizer.dart';
 import 'package:flutter_attendace/presentation/home/bloc/checkin_attendance/checkin_attendance_bloc.dart';
 import 'package:flutter_attendace/presentation/home/pages/attendance_success_page.dart';
 import 'package:flutter_attendace/presentation/home/pages/location_page.dart';
+import 'package:flutter_attendace/presentation/home/pages/main_page.dart';
 import 'package:flutter_attendace/presentation/home/widgets/face_detector_painter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
@@ -125,12 +126,12 @@ class _AttendanceCheckinPageState extends State<AttendanceCheckinPage> {
       if (isValid) {
         setState(() {
           isFaceRegistered = true;
-          faceStatusMessage = 'Wajah sudah terdaftar';
+          faceStatusMessage = 'Face is already registered';
         });
       } else {
         setState(() {
           isFaceRegistered = false;
-          faceStatusMessage = 'Wajah belum terdaftar';
+          faceStatusMessage = 'Face is not registered yet';
         });
       }
     }
@@ -323,7 +324,9 @@ class _AttendanceCheckinPageState extends State<AttendanceCheckinPage> {
               width: size.width,
               height: size.height,
               child: AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
+                //error this line
+                aspectRatio: _controller?.value.aspectRatio ?? 1.0,
+                //
                 child: CameraPreview(_controller!),
               ),
             ),

@@ -77,14 +77,48 @@ class _HistoryPageState extends State<HistoryPage> {
                   // Ambil data pertama dari list (atau ubah logika sesuai kebutuhan Anda)
                   // final attendance = attendanceList.first;
 
-                  // Pisahkan latlongIn menjadi latitude dan longitude
-                  final latlongInParts = attendance.latlonIn!.split(',');
-                  final latitudeIn = double.parse(latlongInParts.first);
-                  final longitudeIn = double.parse(latlongInParts.last);
+                  // Print seluruh attendance untuk melihat data yang masuk
+                  print('Attendance Data: $attendance');
 
-                  final latlongOutParts = attendance.latlonOut!.split(',');
-                  final latitudeOut = double.parse(latlongOutParts.first);
-                  final longitudeOut = double.parse(latlongOutParts.last);
+                  // Pisahkan latlongIn menjadi latitude dan longitude
+                  print('LatlongIn: ${attendance.latlonIn}');
+                  final latlongInParts = attendance.latlonIn?.split(',');
+
+                  // Tambahkan pengecekan null untuk latlongInParts
+                  if (latlongInParts != null && latlongInParts.length == 2) {
+                    final latitudeIn = double.parse(latlongInParts.first);
+                    final longitudeIn = double.parse(latlongInParts.last);
+
+                    // Print untuk memeriksa latitude dan longitude input
+                    print(
+                        'Latitude In: $latitudeIn, Longitude In: $longitudeIn');
+                  } else {
+                    print(
+                        'Error: latlongIn is either null or not properly formatted');
+                  }
+
+                  // Check if latlonOut is null before splitting it
+                  double? latitudeOut;
+                  double? longitudeOut;
+
+                  print(
+                      'LatlongOut: ${attendance.latlonOut}'); // Cek nilai latlonOut
+                  if (attendance.latlonOut != null) {
+                    final latlongOutParts = attendance.latlonOut!.split(',');
+
+                    if (latlongOutParts.length == 2) {
+                      latitudeOut = double.parse(latlongOutParts.first);
+                      longitudeOut = double.parse(latlongOutParts.last);
+
+                      // Print untuk memeriksa latitude dan longitude output
+                      print(
+                          'Latitude Out: $latitudeOut, Longitude Out: $longitudeOut');
+                    } else {
+                      print('Error: latlongOut is not properly formatted');
+                    }
+                  } else {
+                    print('Error: latlongOut is null');
+                  }
 
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -95,10 +129,11 @@ class _HistoryPageState extends State<HistoryPage> {
                         date: attendance.date.toString(),
                       ),
                       const SpaceHeight(10.0),
-                      HistoryLocation(
-                        latitude: latitudeIn,
-                        longitude: longitudeIn,
-                      ),
+                      if (latlongInParts != null && latlongInParts.length == 2)
+                        HistoryLocation(
+                          latitude: double.parse(latlongInParts.first),
+                          longitude: double.parse(latlongInParts.last),
+                        ),
                       const SpaceHeight(25),
                       HistoryAttendance(
                         statusAbsen: 'Pulang',
@@ -107,14 +142,18 @@ class _HistoryPageState extends State<HistoryPage> {
                         date: attendance.date.toString(),
                       ),
                       const SpaceHeight(10.0),
-                      HistoryLocation(
-                        isAttendance: false,
-                        latitude: latitudeOut,
-                        longitude: longitudeOut,
-                      ),
+                      if (latitudeOut != null && longitudeOut != null)
+                        HistoryLocation(
+                          isAttendance: false,
+                          latitude: latitudeOut,
+                          longitude: longitudeOut,
+                        ),
                     ],
                   );
                 },
+
+
+
               );
             },
           ),
